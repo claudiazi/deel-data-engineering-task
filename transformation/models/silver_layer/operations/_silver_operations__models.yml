@@ -1,0 +1,30 @@
+models:
+  - name: order_items
+    config:
+      unique_key: order_item_id
+      cluster_by:
+        - order_item_id
+        - updated_at
+        - product_id
+        - order_id
+  - name: orders
+    config:
+      unique_key: order_id
+      cluster_by:
+        - order_id
+        - updated_at
+        - delivery_date
+        - order_id
+        - customer_id
+  - name: customers
+    config:
+      unique_key: customer_id
+      cluster_by:
+        - customer_id
+        - updated_at
+  - name: products
+    config:
+      unique_key: product_id
+      cluster_by:
+          - product_id
+          - updated_at

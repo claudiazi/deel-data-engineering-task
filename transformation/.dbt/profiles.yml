@@ -1,0 +1,13 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "BUTEFLJ-DH94720"
+      user: "CLAUDIADEEL"
+      password: "1234claudiaDeal"
+      role: "ACCOUNTADMIN"
+      database: "SILVER_LAYER"
+      warehouse: "COMPUTE_WH"
+      schema: public
+      threads: 4
