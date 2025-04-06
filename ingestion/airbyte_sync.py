@@ -4,35 +4,35 @@ from airbyte.strategies import WriteStrategy
 import time
 
 source = ab.get_source(
-   "source-postgres",
-   install_if_missing=True,
+    "source-postgres",
+    install_if_missing=True,
     version="3.6.30",
-   config={
-       "host": "host.docker.internal",
-       "port": 5432,
-         "database": "finance_db",
-         "username": "cdc_user",
+    config={
+        "host": "host.docker.internal",
+        "port": 5432,
+        "database": "finance_db",
+        "username": "cdc_user",
         "password": "cdc_1234",
-         "replication_method": {
-                "method": "CDC",
-                "replication_slot": "cdc_pgoutput",
-                "publication": "cdc_publication",
-                "initial_waiting_seconds": 120,
-            },
+        "replication_method": {
+            "method": "CDC",
+            "replication_slot": "cdc_pgoutput",
+            "publication": "cdc_publication",
+            "initial_waiting_seconds": 120,
+        },
         "schemas": ["operations"],
-        "ssl_mode": { "mode": "disable"
-},}
+        "ssl_mode": {"mode": "disable"},
+    },
 )
 
 # somehow the destination-snowflake didnt work out as expected, use SnowflakeCache instead as a temporary solution
 sf_cache = SnowflakeCache(
-      account="BUTEFLJ-DH94720",
-      username="AIRBYTE_USER",
-      password="1234",
-      warehouse="AIRBYTE_WAREHOUSE",
-      database="BRONZE_LAYER",
-      role="AIRBYTE_ROLE",
-      schema_name="FINANCE_DB__OPERATIONS"
+    account="BUTEFLJ-DH94720",
+    username="AIRBYTE_USER",
+    password="1234",
+    warehouse="AIRBYTE_WAREHOUSE",
+    database="BRONZE_LAYER",
+    role="AIRBYTE_ROLE",
+    schema_name="FINANCE_DB__OPERATIONS",
 )
 
 
