@@ -8,3 +8,4 @@ RUN echo "shared_preload_libraries = 'pg_cron'" >> /usr/share/postgresql/postgre
 RUN echo "cron.database_name = 'finance_db'" >> /usr/share/postgresql/postgresql.conf.sample
 
 USER postgres
+
