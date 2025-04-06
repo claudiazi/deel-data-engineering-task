@@ -107,8 +107,8 @@ To log in to Snowflake, use the following credentials:
 - No proper scheduler set up. No proper scheduler has been set up. Both ingestion and transformation have dependencies but are currently scheduled in a simplistic manner.
 - Real-time processing:
   - The platform currently has a 10-minute latency, falling short of true real-time processing.
-  - Achieving real-time processing requires a robust ingestion tool to stream PostgreSQL CDC data to Snowflake.
-  - For real-time analytics, creating a view on top of the silver layer with business logic and smart filters is necessary. Additionally, tables need proper optimization.
+  - Achieving real-time processing requires a robust ingestion tool (either kafka or no-code tool like Fivetran, stitch etc.) to stream PostgreSQL CDC data to Snowflake.
+  - For real-time analytics, creating a view on top of the silver layer (or changelogs + silver layer) with business logic and smart filters is necessary. Additionally, tables need proper optimization.
 - No proper secret management.
 - No ci-cd and testing.
 - No data quality check.
