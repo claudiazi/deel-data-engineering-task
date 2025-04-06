@@ -1,14 +1,48 @@
 services:
-  transactions-db:
+  db_setup:
     build:
-      context: ./docker/postgres-db
+      context: ./db_setup
     environment:
       - POSTGRES_USER=finance_db_user
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=finance_db
     volumes:
-        - "${PWD}/db-data:/var/lib/postgresql/data"
-        - "${PWD}/db-scripts/initialize_db_ddl.sql:/docker-entrypoint-initdb.d/initialize_db_ddl.sql"
+        - "postgres_data:/var/lib/postgresql/data"
+        - "${PWD}/db_setup/db_scripts/initialize_db_ddl.sql:/docker-entrypoint-initdb.d/initialize_db_ddl.sql"
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "wal_level=logical", "-c", "hot_standby=on"]
+
+
+  ingestion: # TODO: not working yet, tmp file from airbyte cannot be found in the Docker container
+    build:
+      context: ./ingestion
+    environment:
+      - AIRBYTE_LOCAL_ROOT=/airbyte
+    depends_on:
+      - db_setup
+    volumes: # not safe, but docker.io is needed inside the container
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  transformation:
+    build:
+      context: ./transformation
+    depends_on:
+      - db_setup
+      - ingestion
+    command: ["dbt", "run", "--profiles-dir", ".dbt"]
+
+  report_automation: # TODO: didnt figure out how to write the csv file to the host machine; works well in the single docker run, however in docker-compose: after user give the input, the container was stuck
+    build:
+      context: ./report_automation
+      args:
+        DESKTOP_PATH: ${DESKTOP_PATH}
+    depends_on:
+      - db_setup
+      - transformation
+    stdin_open: true
+    tty: true
+
+
+volumes:
+  postgres_data:

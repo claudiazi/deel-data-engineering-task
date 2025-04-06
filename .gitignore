@@ -1,1 +1,9 @@
 db-data/
+transformation/target/
+transformation/logs/
+.cache/
+.db-data/
+var/
+venv/
+.env
+.sso
