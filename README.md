@@ -49,26 +49,34 @@ deels-data-engineering-take-home
 ### Run the services
 **Important**: Ensure you're in the project's root directory before executing the following commands.
 - To run all services together:
-> make docker-compose-up
-
+```bash
+make docker-compose-up
+```
 **Note**: The db_setup configuration has been adjusted in `docker-compose.yaml` to address compatibility issues with the Mac M1 chip. If you encounter errors, please revert to the original configuration.
 
 Additionally, the `ingestion` service isn't fully dockerized (as pyairbyte requires Docker-in-Docker), and `report_automation` currently can't send files to the host machine's path.
 
 Therefore, it's recommended to run the services separately.
 - **Run ingestion**
-> make run-ingestion-local
+```bash
+make run-ingestion-local
+```
 - **Run transformation**
-> make run-transformation-local
-> 
+```bash
+make run-transformation-local
+``` 
 Or, using a Docker container:
-> make docker-run service=transformation
+```bash
+make docker-run service=transformation
+```
 - **Run report_automation**
-> make run-report-automation-local
-> 
+```bash
+make run-report-automation-local
+``` 
 Or, using a Docker container:
-> make docker-run service=report_automation
-
+```bash
+make docker-run service=report_automation
+```
 ### Connect to Snowflake
 While PostgreSQL is suggested as the analytics database in the task file, it isn't ideal as a data warehouse in real case. Therefore, a trial Snowflake account has been set up for this purpose.
 Various roles and warehouses have been created for different tasks:
